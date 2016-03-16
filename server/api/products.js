@@ -5,22 +5,15 @@
 'use strict';
 import resource from 'resource-router-middleware';
 import products from './../models/products';
-import Generator from './../lib/generator';
 import fs from 'fs';
-import Prestan from 'prestan';
 import PrestashopWS from '../lib/prestashopws';
 import Product from '../lib/Product';
 import psWSconfig from '../config/PrestashopWS.config';
 import Promise from 'bluebird';
-
-let generator = new Generator({
-    timeout: 10000,
-    filename: 'tmp/test.pdf'
-});
-
-let prestan = new Prestan(psWSconfig.shopURL, psWSconfig.key, { debug: true });
+import PDFGenerator from '../lib/PDFGenerator'
 
 let prestashopWS = new PrestashopWS(psWSconfig.shopURL, psWSconfig.key, { debug: true });
+let generator = new PDFGenerator();
 
 export default resource({
 
@@ -86,9 +79,11 @@ export default resource({
             console.log('Product received');
             var prod = response.prestashop.product;
             var p = new Product(prod);
-            p.prepareAssociations().then(() => {
-                res.json([p]);
-            });
+            p.prepareAssociations()
+                .then(() => {
+                    return generator.generate('views/product.ejs', p);
+                })
+                .then(data => res.json([p]));
         }).catch(function(errors) {
             console.log(errors);
             res.status(404).json({status: 404, message: 'Product not found'});
