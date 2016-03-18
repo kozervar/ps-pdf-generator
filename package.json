@@ -1,5 +1,5 @@
 {
-  "name": "pdf-generator",
+  "name": "ps-pdf-generator",
   "version": "0.0.1",
   "description": "PDF generator",
   "main": "index.js",
@@ -22,6 +22,7 @@
     "cors": "^2.7.1",
     "ejs": "^2.4.1",
     "express": "^4.13.3",
+    "moment": "^2.12.0",
     "phantomjs-prebuilt": "^2.1.5",
     "qs": "^6.1.0",
     "request-promise": "^2.0.1",

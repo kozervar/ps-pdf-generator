@@ -18,6 +18,8 @@ app.use(bodyParser.json({
 	limit : '100kb'
 }));
 
+app.use(express.static('public'));
+
 // connect to db
 db( λ => {
 

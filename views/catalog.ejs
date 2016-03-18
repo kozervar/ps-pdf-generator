@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="<%= options.pageURL %>/style/style.css" media="all" rel="stylesheet" />
+</head>
+<body>
+<% for(var i = 0; i < products.length; i++) { var product = products[i]; %>
+    <% if(i % 8 == 0) {%>
+    <div class="page">
+        <div class="container pageContent">
+    <%}%>
+        <% if(i % 4 == 0) {%>
+        <div class="row">
+        <%}%>
+            <div class="product">
+                <%= i %> => <%= product.id %> && <%= product.reference %>
+            </div>
+        <% if((i+1) % 4  == 0) {%>
+        </div>
+        <%}%>
+    <% if((i+1) % 8 == 0) {%>
+        <div class="pageFooter"></div>
+        </div>
+    </div>
+    <%}%>
+<% }%>
+</body>
+</html>

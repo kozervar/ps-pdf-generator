@@ -14,18 +14,13 @@ import PDFGenerator from '../lib/PDFGenerator'
 
 let prestashopWS = new PrestashopWS(psWSconfig.shopURL, psWSconfig.key, { debug: true });
 let generator = new PDFGenerator();
-
+const PAGE_URL = 'http://localhost:8080';
 export default resource({
 
     id: 'product',
 
-    //load(req, id, callback) {
-    //    console.log('load');
-    //    callback({status: 404, message: 'Product not found ' + id}, 'Product not found ' + id);
-    //},
-
     index(req, res) {
-        let limit = req.query.limit ? req.query.limit : 5;
+        let limit = req.query.limit ? req.query.limit : 10;
         prestashopWS.get('products', {
             'display': 'full',
             'limit': limit,
@@ -56,7 +51,18 @@ export default resource({
                     });
                     promises.push(promise);
                 });
-                return Promise.all(promises).then(() => res.json(prods)).catch(err=>{
+                return Promise.all(promises).then(() => {
+                    return generator.generate('views/catalog.ejs', {
+                        products: prods,
+                        options: {
+                            pageURL : PAGE_URL
+                        }
+                    });
+                })
+                .then((data) => {
+                    res.json(prods);
+                })
+                .catch(err=>{
                     res.status(404).json({status: 404, message: err});
                 });
             }
