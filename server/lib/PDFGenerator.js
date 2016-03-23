@@ -10,12 +10,19 @@ import moment from 'moment';
 import fs from 'fs';
 
 let generator = new Generator({
-    timeout: 10000,
+    width: '210mm',
+    height: '297mm',
+    timeout: 600000,
     filename: 'tmp/test.pdf',
-    margin: "0",
-    "footer": {
-        "height": "28mm",
-        "contents": '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>'
+    margin: {
+        top:    '0',
+        bottom: '6mm',
+        left:   '11mm',
+        right:  '7mm'
+    },
+    header: {
+        height: "19mm",
+        contents: '<div style="font-family: \'Source Sans Pro\', sans-serif;">{{page}} / {{pages}}</div>'
     }
 });
 
@@ -25,6 +32,12 @@ class PDFGenerator {
 
     generate(template, product) {
         return new Promise((resolve, reject)=> {
+            //fs.writeFile('tmp/products.json', JSON.stringify(product.products), function(err) {
+            //    if(err) {
+            //        return console.log(err);
+            //    }
+            //    console.log("JSON file was saved!");
+            //});
             consolidate.ejs(template, product)
                 .then(html => {
                     generator.options.filename = 'tmp/' + moment().format('YYYYMMDD_HHmmss') + '.pdf';
@@ -41,7 +54,10 @@ class PDFGenerator {
                     console.info('PDF generated. File: ', data.filename);
                     resolve(product);
                 })
-                .catch(err=>reject(err));
+                .catch(err=>{
+                    console.log(err);
+                    reject(err);
+                });
         });
     }
 }

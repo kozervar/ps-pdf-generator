@@ -7,6 +7,8 @@
 var system = require('system');
 var webpage = require('webpage');
 
+var fs = require('fs');
+
 // Error handler
 function exit (error) {
     var message;
@@ -40,7 +42,7 @@ var page = webpage.create();
 
 if (options.httpHeaders) page.customHeaders = options.httpHeaders;
 if (options.viewportSize) page.viewportSize = options.viewportSize;
-if (options.base) page.setContent(json.html, options.base)
+if (options.base) page.setContent(json.html, options.base);
 else page.setContent(json.html, null);
 
 page.onError = function (msg, trace) {
@@ -171,12 +173,14 @@ function definePaperOrientation (options) {
 
     if (options.height && options.width) {
         paper.width = options.width;
-        paper.height = options.height
+        paper.height = options.height;
+        if(options.margin)
+            paper.margin = options.margin;
     } else {
         paper.format = options.format || 'A4';
         paper.orientation = options.orientation || 'portrait';
         if(options.margin)
-            paper.margin = options.margin
+            paper.margin = options.margin;
     }
 
     return paper

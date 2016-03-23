@@ -3,28 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
-    <link href="<%= options.pageURL %>/style/style.css" media="all" rel="stylesheet" />
+    <link href="<%= options.pageURL %>/style.css" media="all" rel="stylesheet"/>
 </head>
 <body>
+<% var _break = 5, _perPage = 25; %>
+<% var _pages = Math.ceil(products.length / _perPage); %>
+<% var _language = 0; %>
 <% for(var i = 0; i < products.length; i++) { var product = products[i]; %>
-    <% if(i % 8 == 0) {%>
-    <div class="page">
-        <div class="container pageContent">
-    <%}%>
-        <% if(i % 4 == 0) {%>
-        <div class="row">
-        <%}%>
-            <div class="product">
-                <%= i %> => <%= product.id %> && <%= product.reference %>
-            </div>
-        <% if((i+1) % 4  == 0) {%>
-        </div>
-        <%}%>
-    <% if((i+1) % 8 == 0) {%>
-        <div class="pageFooter"></div>
+<% var _pageCondition = i % (_break * 2) == 0; %>
+<% var _endPageCondition = (i + 2) % (_break * 2) == 0; %>
+<% var _rowCondition = i % _break == 0; %>
+<% var _endRowCondition = (i + 1) % _break == 0; %>
+
+<% var _page = Math.ceil(i / _perPage); %>
+
+<% if(_page == 0) { %>
+<div class="row">
+    <div class="category-container">
+        <div class="category">
+            <h1><%= product.category[_language].name %></h1>
         </div>
     </div>
-    <%}%>
-<% }%>
+</div>
+<% } %>
+<% if(_rowCondition) { %>
+<div class="row">
+    <% } %>
+    <div class="product-container">
+        <div class="product">
+            <div class="catalog-no"><%= product.reference %></div>
+            <div class="price"><%= Math.round(parseFloat(product.price) * 100) / 100 %> €</div>
+            <div class="pid">ID:<%= product.id %></div>
+            <div class="product-inner">
+                <div class="image-container">
+                    <img class="image" src="<%= product.image_url%>" />
+                </div>
+                <div class="details-container">
+                    <%= product.name[_language].name %>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% if(_endRowCondition) { %>
+</div>
+<% } %>
+<% } %>
 </body>
 </html>

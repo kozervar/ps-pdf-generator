@@ -16,7 +16,7 @@ class Product {
 
         this.id = r.id;
         this.reference = r.reference;
-        this.price = r.price;
+        this.price = parseFloat(r.price);
 
         this.category = [];
         this.quantity = null;
@@ -28,8 +28,10 @@ class Product {
 
         if (r.id_default_image
             && r.id_default_image.$
-            && r.id_default_image.$['xlink:href'])
+            && r.id_default_image.$['xlink:href']) {
             this.image_url = r.id_default_image.$['xlink:href'];
+            this.image_url = 'http://' + psWSconfig.key + '@' + this.image_url.substr(7, this.image_url.length);
+        }
 
         if (r.name
             && r.name.language
