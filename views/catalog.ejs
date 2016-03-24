@@ -13,7 +13,7 @@
 <% var _pageCondition = i % (_break * 2) == 0; %>
 <% var _endPageCondition = (i + 2) % (_break * 2) == 0; %>
 <% var _rowCondition = i % _break == 0; %>
-<% var _endRowCondition = (i + 1) % _break == 0; %>
+<% var _endRowCondition = (i + 1) % _break == 0 || (i+1) == products.length; %>
 
 <% var _page = Math.ceil(i / _perPage); %>
 
@@ -32,14 +32,14 @@
     <div class="product-container">
         <div class="product">
             <div class="catalog-no"><%= product.reference %></div>
-            <div class="price"><%= Math.round(parseFloat(product.price) * 100) / 100 %> €</div>
+            <div class="price"><%= Math.round(parseFloat(product.price) * 100) / 100 %> &euro;</div>
             <div class="pid">ID:<%= product.id %></div>
             <div class="product-inner">
                 <div class="image-container">
                     <img class="image" src="<%= product.image_url%>" />
                 </div>
                 <div class="details-container">
-                    <%= product.name[_language].name %>
+                    <p class="dont-break-out">Lorem ipsum dolor sit ammmmelaalkshdlhasdljhasdoljhasldjhb asdkjhbals akjsdhl</p>
                 </div>
             </div>
         </div>

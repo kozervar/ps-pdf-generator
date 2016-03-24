@@ -8,6 +8,7 @@ import consolidate from 'consolidate';
 import Promise from 'bluebird';
 import moment from 'moment';
 import fs from 'fs';
+import beautify from 'js-beautify';
 
 let generator = new Generator({
     width: '210mm',
@@ -40,6 +41,8 @@ class PDFGenerator {
             //});
             consolidate.ejs(template, product)
                 .then(html => {
+                    //html = html.replace( new RegExp( "\>[\s]+\<" , "g" ) , "><" );
+                    html = beautify.html(html, {"preserve_newlines" : false});
                     generator.options.filename = 'tmp/' + moment().format('YYYYMMDD_HHmmss') + '.pdf';
                     fs.writeFile('tmp/tmp.html', html, function(err) {
                         if(err) {
