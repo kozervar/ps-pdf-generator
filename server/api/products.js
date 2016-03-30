@@ -85,11 +85,22 @@ export default resource({
             console.log('Product received');
             var prod = response.prestashop.product;
             var p = new Product(prod);
-            p.prepareAssociations()
-                .then(() => {
-                    return generator.generate('views/product.ejs', p);
+            let promises = [];
+            promises.push(p.prepareAssociations());
+            return Promise.all(promises).then(() => {
+                    return generator.generate('views/product.ejs', {
+                        product: p,
+                        options: {
+                            pageURL : PAGE_URL
+                        }
+                    });
                 })
-                .then(data => res.json([p]));
+                .then((data) => {
+                    res.json(p);
+                })
+                .catch(err=>{
+                    res.status(404).json({status: 404, message: err});
+                });
         }).catch(function(errors) {
             console.log(errors);
             res.status(404).json({status: 404, message: 'Product not found'});

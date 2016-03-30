@@ -1,3 +1,19 @@
-<h1>Product ID: <%= id %></h1>
-<h1>CATALOG NR: <%= reference %></h1>
-<h1>PRICE: <%= price %></h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="<%= options.pageURL %>/style.css" media="all" rel="stylesheet"/>
+</head>
+<body class="single-product">
+    <div class="row">
+        <div class="title-container">
+            <div class="title-container-inner">
+                <div class="reference"><%= product.reference %></div>
+                <h1><%= product.name[0].name %></h1>
+                <div class="price"><%= Math.round(parseFloat(product.price) * 100) / 100 %> &euro;</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
