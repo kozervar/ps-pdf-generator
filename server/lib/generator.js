@@ -4,7 +4,7 @@
 
 'use strict';
 import childProcess from 'child_process';
-import phantomJS from 'phantomJS-prebuilt';
+import phantomJS from 'phantomjs-prebuilt';
 import path from 'path';
 import Promise from 'bluebird';
 
