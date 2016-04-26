@@ -14,7 +14,7 @@ import PDFGenerator from '../lib/PDFGenerator'
 
 let prestashopWS = new PrestashopWS(psWSconfig.shopURL, psWSconfig.key, { debug: true });
 let generator = new PDFGenerator();
-const PAGE_URL = 'http://localhost:8080';
+const PAGE_URL = 'http://localhost:1337';
 export default resource({
 
     id: 'product',
